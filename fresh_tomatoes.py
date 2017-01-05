@@ -108,7 +108,6 @@ main_page_content = '''
         <div class="container">
           <div class="navbar-header">
             <a class="navbar-brand" href="fresh_tomatoes.html">Luds favourite movies</a>
-            <a class="navbar-brand" href="fresh_tomatoes_series.html">Luds favourite series</a>
           </div>
         </div>
       </div>
