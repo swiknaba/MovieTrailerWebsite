@@ -42,4 +42,6 @@ The following files are included:
 Additional Notes:
 The class Video() seems to be not necessary. It is intended for adding further
 classes that are video material but not movies, such as series. This indeed is
-used in the branch series-feature branch.
+used in the branch series-feature. So far the series-feature can not be
+merged into the master branch due to some error which is stated in the ReadMe
+of the sub-branch.
