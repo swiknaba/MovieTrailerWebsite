@@ -53,7 +53,7 @@ the_sea_inside = media.Movie(
     "https://youtu.be/dVRnG1MddAM")
 
 secret_walter_mitty_2013 = media.Movie(
-    "The Secret Life of Walter Mitty (2013)",
+    "Walter Mitty (2013)",
     114,
     "Daydreamer Walter gently takes on a personal journey to achieve greatness",
     "https://upload.wikimedia.org/wikipedia/en/c/cd/The_Secret_Life_of_Walter_Mitty_poster.jpg",  # NOQA
