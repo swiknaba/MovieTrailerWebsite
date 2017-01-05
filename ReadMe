@@ -38,3 +38,8 @@ The following files are included:
 3) fresh_tomatoes.py
     - receives the list of all movies from file 2) and generates a html site
     - opens the generated website in default webbroswer
+
+Additional Notes:
+The class Video() seems to be not necessary. It is intended for adding further
+classes that are video material but not movies, such as series. This indeed is
+used in the branch series-feature branch.
