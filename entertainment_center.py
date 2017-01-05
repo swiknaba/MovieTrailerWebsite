@@ -1,6 +1,5 @@
 import media
 import fresh_tomatoes
-import fresh_tomatoes_series
 
 toy_story = media.Movie(
     "Toy Story",  # Movie Title
