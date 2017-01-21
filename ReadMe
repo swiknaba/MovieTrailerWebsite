@@ -10,7 +10,7 @@ Contact: ludwigreinmiedl (at) gmail.com
 Version: 05.01.2016
 
 The "MovieTrailerWebsite" generates a Website viewable in any Webbrowser. It
-lists Luds favourite Movies and Series.
+lists Luds favourite Movies.
 Each entry will display a picture linking to the trailer on YouTube and display
 some additional information to the movie.
 
@@ -32,25 +32,16 @@ The following files are included:
     defines all necessary classes, which are
         a) Video
         b) Movie
-        c) Series
 2) entertainment_center.py
     contains a list of all movies and series
-    executes the files fresh_tomatoes.py and fresh_tomatoes_seriers.py
+    executes the files fresh_tomatoes.py
 3) fresh_tomatoes.py
     - receives the list of all movies from file 2) and generates a html site
-    - opens the generated website in default webbroswer 
-4) fresh_tomatoes_seriers.py
-    -receives the list of all series from file 2) and generates the html site
-     for all the series
+    - opens the generated website in default webbroswer
 
-
-Know Issues/Errors:
-The fresh_tomatoes_series.html will only display the very first series. For all
-following series, the style of the div container is set to display: none which
-according to my research seems to be a problem with using modal and bootstrap
-javascript. At this stage of the course I couldn't fix this problem and left it
-as it is. Still the basic requirements are fullfilled, the main page works
-perfectly fine. Probably one would need to write a special modal class, which
-seems a bit too much at the current point. However I decided to not just delete
-it to show that I put some effort in enhancing the basic model. If there is a
-simple correction, I appretiate every help, thank you :-)
+Additional Notes:
+The class Video() seems to be not necessary. It is intended for adding further
+classes that are video material but not movies, such as series. This indeed is
+used in the branch series-feature. So far the series-feature can not be
+merged into the master branch due to some error which is stated in the ReadMe
+of the sub-branch.
