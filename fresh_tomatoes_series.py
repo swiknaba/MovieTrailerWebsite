@@ -20,7 +20,6 @@ main_page_head = '''
         body {
             padding-top: 80px;
         }
-
         #trailer .modal-dialog {
             margin-top: 200px;
             width: 640px;
@@ -57,6 +56,11 @@ main_page_head = '''
             top: 0;
             background-color: white;
         }
+        <!-- the visible class does not solve the "display: none;" problem  -->
+        <!--   see ReadMe for further information -->
+        .visible{
+            display: inline !important;
+        }
     </style>
     <script type="text/javascript" charset="utf-8">
         // Pause the video when the modal is closed
@@ -77,11 +81,23 @@ main_page_head = '''
             }));
         });
         // Animate in the movies when the page loads
-//        $(document).ready(function () {
-//          $('.movie-tile').hide().first().show("fast", function showNext() {
-//            $(this).next("div").show("fast", showNext);
-//          });
-//        });
+        $(document).ready(function () {
+          $('.series').each(function(index, el) {
+            console.log(el);
+            $(el).children('.movie-tile').hide().first().show("fast", function showNext() {
+                $(this).next("div").show("fast", showNext);
+            });
+        });
+})
+    </script>
+    <script type="text/javascript" charset="utf-8">
+    //yet another try to resolve the problem of the "display: none" problem
+        var delay = 500;
+        setTimeout(function(){
+           $('#visible_error').load(function(){
+               document.getElementById('visible_error').style.display = 'block';
+           });
+        }, delay);
     </script>
 </head>
 '''
@@ -109,58 +125,84 @@ main_page_content = '''
         <div class="container">
           <div class="navbar-header">
             <a class="navbar-brand" href="fresh_tomatoes.html">Luds favourite movies</a>
-            <a class="navbar-brand" href="fresh_tomatoes_series.html">Luds favourite series</a>
+            <a class="navbar-brand" href="fresh_tomatoes_series.html"> Luds favourite series</a>
           </div>
         </div>
       </div>
     </div>
-    <div class="container">
-      {movie_tiles}
-    </div>
+    {movie_tiles}
   </body>
 </html>
 '''
 
-# A single movie entry html template
+# Header of one series containing several seasons
+movie_tile_content_head = '''
+<div class="container series">
+    <h2>{series_title}</h2>
+    <p>{series_description}</p>
+'''
+
+# A single seasons entry html template
 movie_tile_content = '''
-<div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
+<div class="col-md-6 col-lg-4 movie-tile text-center visible" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer" id="visible_error">
     <img src="{poster_image_url}" width="220" height="342">
     <h2>{movie_title}</h2>
     <p>{movie_description}</p>
     <p><strong>Duration: {movie_duration} min.</strong></p>
-</div>
+    </div>
 '''
 
-def create_movie_tiles_content(movies):
-    """This method will put together HTML code that displays all movies
+# Footer of one series containing several seasons
+movie_tile_content_foot = '''
+    <!-- <br><hr><br> -->
+</div>
+<br><br>
+'''
+
+def create_movie_tiles_content(series, seasons):
+    """This method will put together HTML code that displays all series
 
     Input:
-        movies -- an arry containing all movies as objects of class Movie
+        series -- an arry containing all series as objects of class Series
+        seasons -- an array containing one array per series, which again
+                   contains all seasons als objects of class Movie
     Output:
         content -- HTML Code
     """
     content = ''
-    for movie in movies:
-        # Extract the youtube ID from the url
-        youtube_id_match = re.search(
-            r'(?<=v=)[^&#]+', movie.trailer_youtube_url)
-        youtube_id_match = youtube_id_match or re.search(
-            r'(?<=be/)[^&#]+', movie.trailer_youtube_url)
-        trailer_youtube_id = (youtube_id_match.group(0) if youtube_id_match
-                              else None)
-
-        # Append the tile for the movie with its content filled in
-        content += movie_tile_content.format(
-            movie_title=movie.title,
-            poster_image_url=movie.poster_image_url,
-            trailer_youtube_id=trailer_youtube_id,
-            movie_description=movie.storyline,
-            movie_duration=movie.duration
+    for serie in range(0,len(series)):
+        # Append the tile for the serie with its content filled in in 3 steps
+        # 1. add the series titel, description
+        content += movie_tile_content_head.format(
+            series_title=series[serie].title,
+            series_description=series[serie].storyline,
         )
+
+        # 2. add all the seasons for the series
+        for season in range(0,series[serie].count_seasons):
+            # first extract the youtube ID from the url
+            youtube_id_match = re.search(
+                r'(?<=v=)[^&#]+', seasons[serie][season].trailer_youtube_url)
+            youtube_id_match = youtube_id_match or re.search(
+                r'(?<=be/)[^&#]+', seasons[serie][season].trailer_youtube_url)
+            trailer_youtube_id = (youtube_id_match.group(0) if youtube_id_match
+                                  else None)
+            # now append season
+            content += movie_tile_content.format(
+                movie_title=seasons[serie][season].title,
+                poster_image_url=seasons[serie][season].poster_image_url,
+                trailer_youtube_id=trailer_youtube_id,
+                movie_description=seasons[serie][season].storyline,
+                movie_duration=seasons[serie][season].duration
+            )
+
+        # 3. add a footer for seperation
+        content += movie_tile_content_foot
+
     return content
 
 
-def open_movies_page(movies):
+def open_movies_page(series, seasons):
     """This method generates an HTML file
 
     Input:
@@ -168,16 +210,12 @@ def open_movies_page(movies):
     Output:
         fresh_tomatoes.html -- the HTML file representing the projects page
     """
-    output_file = open('fresh_tomatoes.html', 'w')
+    output_file = open('fresh_tomatoes_series.html', 'w')
 
     # Replace the movie tiles placeholder generated content
     rendered_content = main_page_content.format(
-        movie_tiles=create_movie_tiles_content(movies))
+        movie_tiles=create_movie_tiles_content(series, seasons))
 
     # Output the file
     output_file.write(main_page_head + rendered_content)
     output_file.close()
-
-    # open the output file in the browser (in a new tab, if possible)
-    url = os.path.abspath(output_file.name)
-    webbrowser.open('file://' + url, new=2)

@@ -60,52 +60,61 @@ secret_walter_mitty_2013 = media.Movie(
     "https://upload.wikimedia.org/wikipedia/en/c/cd/The_Secret_Life_of_Walter_Mitty_poster.jpg",  # NOQA
     "https://youtu.be/HddkucqSzSM")
 
+breaking_bad = media.Series(
+    "Breaking Bad",
+    5,  # Amount of seasons
+    "Chemistry teacher diagnosed with cancer turns to a life of crime")
+
 breaking_bad_season1 = media.Movie(
-    "Breaking Bad: Season 1",
+    "Season 1",
     336,
-    "7 Episodes, Released 2008<br>Chemistry teacher diagnosed with cancer turns"
-    " to a life of crime",
+    "7 Episodes, Released 2008",
     "https://upload.wikimedia.org/wikipedia/en/6/61/BreakingBadS1DVD.jpg",
     "https://youtu.be/HhesaQXLuRY")
 
 breaking_bad_season2 = media.Movie(
-    "Breaking Bad: Season 2",
+    "Season 2",
     611,
     "13 Episodes, Released 2009",
     "https://upload.wikimedia.org/wikipedia/en/e/e0/BreakingBadS2DVD.jpg",
     "https://youtu.be/I-8914DuyhY")
 
 breaking_bad_season3 = media.Movie(
-    "Breaking Bad: Season 3",
+    "Season 3",
     611,
     "13 Episodes, Released 2010",
     "https://upload.wikimedia.org/wikipedia/en/8/87/Breaking_Bad_season_3_DVD.png",  # NOQA
     "https://youtu.be/ZK2IQ3LbLYk")
 
 breaking_bad_season4 = media.Movie(
-    "Breaking Bad: Season 4",
+    "Season 4",
     611,
     "13 Episodes, Released 2011",
     "https://upload.wikimedia.org/wikipedia/en/b/bd/Breaking_Bad_season_four_DVD.jpg",  # NOQA
     "https://youtu.be/WcUmzPcQEJo")
 
 breaking_bad_season5 = media.Movie(
-    "Breaking Bad: Season 5",
+    "Season 5",
     752,
     "2 x 8 Episodes, Released 2012 and 2013",
     "https://upload.wikimedia.org/wikipedia/en/8/8b/Breaking_Bad_season_five_part_i_and_ii_dvd.png",  # NOQA
     "https://youtu.be/_b8SQ3H1BO4")
 
+westworld = media.Series(
+    "Westworld",
+    2,
+    "Future amusement park populated with androids powered by AI - what could"
+    " go wrong?")
+
 westworld_season1 = media.Movie(
-    "Westworld: Season 1",
+    "Season 1",
     740,
-    "10 Episodes, Released 2016<br>Future amusement park populated with"
-    " androids powered by AI - what could go wrong?",
+    "10 Episodes, Released 2016",
     "http://assets1.ignimgs.com/2016/09/01/1274080mktpawestworlds1keyartpov1jpg-42cbc1_765w.jpg",  # NOQA
     "https://youtu.be/0zZcBv0gPK0")
 
 westworld_season2 = media.Movie(
-    "Westworld: Season 2",
+    "Season 2",
     0,
     "10 Episodes, Expected 2018",
     "http://assets2.ignimgs.com/2016/09/28/fin01westworld1shtjpg-f9a6f7_765w.jpg",  # NOQA
@@ -113,10 +122,20 @@ westworld_season2 = media.Movie(
 
 # put all movies in one list
 movies = [toy_story, avatar, lucky_number_slevin, ai_artificial_intelligence,
-          who_am_i, i_saw_the_devil, the_sea_inside, secret_walter_mitty_2013,
-          breaking_bad_season1, breaking_bad_season2, breaking_bad_season3,
-          breaking_bad_season4, breaking_bad_season5, westworld_season1,
-          westworld_season2]
+          who_am_i, i_saw_the_devil, the_sea_inside, secret_walter_mitty_2013]
 
-# hand over movies to its fresh_tomatoes html generator, call generator
+# put all series in one list
+series = [breaking_bad, westworld]
+
+# put together all seasons for each series
+seasons_breaking_bad = [breaking_bad_season1, breaking_bad_season2,
+                       breaking_bad_season3, breaking_bad_season4,
+                       breaking_bad_season5]
+seasons_westworld = [westworld_season1, westworld_season2]
+
+# put together all seasons
+seasons = [seasons_breaking_bad, seasons_westworld]
+
+# hand over movies/series to its fresh_tomatoes html generator, call it
 fresh_tomatoes.open_movies_page(movies)
+fresh_tomatoes_series.open_movies_page(series, seasons)
